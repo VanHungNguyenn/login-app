@@ -5,6 +5,8 @@ const connect = require('./database/conn')
 const app = express()
 const morgan = require('morgan')
 
+const router = require('./router/route')
+
 // middlewares
 app.use(cors())
 app.use(express.json())
@@ -17,6 +19,9 @@ const port = 8080
 app.get('/', (req, res) => {
 	res.status(201).json('Home GET request')
 })
+
+/* api route */
+app.use('/api', router)
 
 /* start server only when we have valid connection */
 connect()
