@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
-const connect = require('./database/conn')
+const mongoose = require('mongoose')
+const { MONGO_URI } = require('./config')
 
 const app = express()
 const morgan = require('morgan')
@@ -23,17 +24,13 @@ app.get('/', (req, res) => {
 /* api route */
 app.use('/api', router)
 
-/* start server only when we have valid connection */
-connect()
-	.then(() => {
-		try {
-			app.listen(port, () => {
-				console.log(`Server is running to http://localhost:${port}`)
-			})
-		} catch (error) {
-			console.log('Cannot connect to server')
-		}
-	})
-	.catch((error) => {
-		console.log('Invalid database connection')
-	})
+// connect to database
+mongoose.set('strictQuery', false)
+mongoose.connect(MONGO_URI, (err) => {
+	if (err) throw err
+	console.log('Connected to mongodb')
+})
+
+app.listen(port, () => {
+	console.log(`Server running on port ${port}`)
+})

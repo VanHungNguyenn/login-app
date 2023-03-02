@@ -1,24 +1,27 @@
-const { Router } = require('express')
-const router = Router()
-const { register } = require('../controllers/appController')
-
+const router = require('express').Router()
 /* import all controllers */
 const controller = require('../controllers/appController')
+const { Auth, localVariables } = require('../middleware/auth')
+const registerMail = require('../controllers/mailer')
 
 // post method
 router.route('/register').post(controller.register)
-// router.route('/registerMail').post() // send the mail
+router.route('/registerMail').post(registerMail) // send the mail
 router.route('/authenticate').post((req, res) => res.end()) // authenticate
-router.route('/login').post(controller.login) // log in
+router.route('/login').post(controller.verifyUser, controller.login) // log in
 
 // get method
 router.route('/user/:username').get(controller.getUser)
-router.route('/generateOTP').get(controller.generateOTP)
+router
+	.route('/generateOTP')
+	.get(controller.verifyUser, localVariables, controller.generateOTP)
 router.route('/verifyOTP').get(controller.verifyOTP)
 router.route('/createResetSession').get(controller.createResetSession)
 
 // put method
-router.route('/updateuser').put(controller.updateUser)
-router.route('/resetpassword').put(controller.resetPassword)
+router.route('/updateuser').put(Auth, controller.updateUser)
+router
+	.route('/resetpassword')
+	.put(controller.verifyUser, controller.resetPassword)
 
 module.exports = router
