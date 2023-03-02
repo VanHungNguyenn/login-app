@@ -45,6 +45,7 @@ const Username = () => {
 								type='text'
 								placeholder='Username'
 								{...formik.getFieldProps('username')}
+								autoComplete='off'
 							/>
 							<button className={styles.btn} type='submit'>
 								Let's go

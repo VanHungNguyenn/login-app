@@ -13,7 +13,7 @@ let nodeConfig = {
 			'38546557321-3l1j9ibib8c4ni2tlhkb11c8v1kapinp.apps.googleusercontent.com',
 		clientSecret: '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',
 		refreshToken:
-			'1//04GA0C0BDMetbCgYIARAAGAQSNwF-L9Ir68kWPOnClEWSYfnnqiieVSZkdYjWvz8WAVzYztvN28r_m8a9VhXzClJ68ayyllemogw',
+			'1//042ZJO4lg9IABCgYIARAAGAQSNwF-L9Irc_BsXk_CeXZBWdvw1WuHZ2RjghPd5-96924SBEEQpGa3YIyysg6TOx_WOfIdBQJi9n0',
 	},
 }
 
