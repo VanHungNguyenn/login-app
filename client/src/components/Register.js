@@ -1,28 +1,42 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import avatar from '../assets/profile.png'
-import { Toaster } from 'react-hot-toast'
+import { Toaster, toast } from 'react-hot-toast'
 import { useFormik } from 'formik'
 import { registerValidate } from '../helper/validate'
 import convertToBase64 from '../helper/convert'
+import { registerUser } from '../helper/helper'
 
 import styles from '../styles/Username.module.css'
 
 const Register = () => {
+	const navigate = useNavigate()
+
 	const [file, setFile] = useState(null)
 
 	const formik = useFormik({
 		initialValues: {
-			email: 'doyo123@gmail.com',
-			username: 'example123',
-			password: 'admin@123',
+			email: '',
+			username: '',
+			password: '',
 		},
 		validate: registerValidate,
 		validateOnBlur: false,
 		validateOnChange: false,
 		onSubmit: async (values) => {
-			values = await Object.assign(values, { profile: file || '' })
-			console.log(values)
+			values = Object.assign(values, { profile: file || '' })
+
+			let registerPromise = registerUser(values)
+
+			toast.promise(registerPromise, {
+				loading: 'Registering...',
+				success: 'Registration successful',
+				error: 'Email or username already registered',
+			})
+
+			registerPromise.then(() => {
+				navigate('/')
+			})
 		},
 	})
 
@@ -80,7 +94,7 @@ const Register = () => {
 								{...formik.getFieldProps('password')}
 							/>
 							<button className={styles.btn} type='submit'>
-								Sign In
+								Register
 							</button>
 						</div>
 						<div className='text-center py-4'>

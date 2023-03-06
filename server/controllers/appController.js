@@ -28,16 +28,14 @@ const register = async (req, res) => {
 	try {
 		const { username, password, email, profile } = req.body
 
-		// check existing user
+		// check user
 		const existingUser = await UserModel.findOne({ username })
-
 		if (existingUser) {
 			return res.status(409).json({ message: 'User already exists' })
 		}
 
-		// check for existing email
+		// check email
 		const existingEmail = await UserModel.findOne({ email })
-
 		if (existingEmail) {
 			return res.status(409).json({ message: 'Email already exists' })
 		}
@@ -67,13 +65,6 @@ const register = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({ message: error.message })
 	}
-}
-
-/* POST: localhost:8080/api/authenticate */
-const authenticate = async (req, res) => {
-	res.json({
-		message: 'Authenticate successful',
-	})
 }
 
 /* POST: localhost:8080/api/login */
@@ -118,7 +109,7 @@ const login = async (req, res) => {
 	}
 }
 
-/* POST: localhost:8080/api/user/:username */
+/* GET: localhost:8080/api/user/:username */
 const getUser = async (req, res) => {
 	try {
 		const { username } = req.params
@@ -249,7 +240,6 @@ const resetPassword = async (req, res) => {
 
 module.exports = {
 	register,
-	authenticate,
 	login,
 	getUser,
 	generateOTP,

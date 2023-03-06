@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const { MONGO_URI } = require('./config')
+const bodyParser = require('body-parser')
 
 const app = express()
 const morgan = require('morgan')
@@ -11,6 +12,8 @@ const router = require('./router/route')
 // middlewares
 app.use(cors())
 app.use(express.json())
+app.use(bodyParser.json({ limit: '10mb', extended: true }))
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }))
 app.use(morgan('tiny'))
 app.disable('x-powered-by') // security
 

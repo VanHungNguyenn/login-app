@@ -39,6 +39,7 @@ const Recovery = () => {
 									placeholder='OTP'
 									{...formik.getFieldProps('otp')}
 									width='100%'
+									maxLength='6'
 								/>
 							</div>
 							<button className={styles.btn} type='submit'>
